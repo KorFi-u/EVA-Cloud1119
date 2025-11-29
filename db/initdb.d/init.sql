@@ -6,7 +6,13 @@ CREATE TABLE log (
     imagen VARCHAR(100)
 );
 
--- Insertar datos de prueba (Las imágenes deben coincidir con las que pongas en la carpeta web)
 INSERT INTO log (hora, actividad, estado, imagen) VALUES 
-('10:00:00', 'Inicio de servidor', 'Exitoso', 'img1.png'),
-('10:30:00', 'Conexion usuario', 'Pendiente', 'img2.png');
+('10:00:00', 'Contenedores corriendo', 'Exitoso', 'img1.png'),
+('10:30:00', 'Contenedores Detenidos y activos', 'Exitoso', 'img2.png'),
+('10:30:00', 'Imagenes en la maquina', 'Exitoso', 'img3.png'),
+('10:30:00', 'Volumenes', 'Exitoso', 'img4.png'),
+('10:30:00', 'Logs del contenedor web', 'Exitoso', 'img5.png'),
+('10:30:00', 'Ping entre servicios', 'Exitoso', 'img6.png'),
+('10:30:00', 'Healthcheck', 'Exitoso', 'img7.png'),
+('10:30:00', 'WebFuncionando', 'Exitoso', 'img8.png'),
+('10:30:00', 'Tabla Log Visible', 'Exitoso', 'img9.png');

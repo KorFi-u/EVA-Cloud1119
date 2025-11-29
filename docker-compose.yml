@@ -1,20 +1,21 @@
+version: '5.3'
 services:
   bd:
     image: mysql:5.7
-    container_name: contenedor_db
+    container_name: db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mi_base_datos
-      MYSQL_USER: usuario
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: php
+      MYSQL_USER: php
+      MYSQL_PASSWORD: 12345
     volumes:
       
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/initdb.d:/docker-entrypoint-initdb.d/init.sql
       
       - db_data:/var/lib/mysql
     networks:
-      - mi_red
+      - BarFer
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -24,14 +25,14 @@ services:
   
   web:
     build: ./web
-    container_name: contenedor_web
+    container_name: web
     ports:
       - "8080:80"
     depends_on: 
       bd:
         condition: service_healthy
     networks:
-      - mi_red
+      - BarFer
     healthcheck: 
       test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 10s
@@ -42,5 +43,5 @@ volumes:
   db_data: 
 
 networks:
-  mi_red: 
+  BarFer: 
     driver: bridge

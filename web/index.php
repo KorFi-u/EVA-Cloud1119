@@ -17,22 +17,22 @@
 <body>
 
     <h1>Panel de Control</h1>
-    <img src="logo.png" alt="Logo del Grupo" class="logo">
+    <img src="static/img/logo.png" alt="Logo insanso" class="logo">
 
     <?php
-    $servername = "bd"; // Nombre del servicio en docker-compose
-    $username = "usuario";
-    $password = "password";
-    $dbname = "mi_base_datos";
+    $servername = "bd"; 
+    $username = "php";
+    $password = "12345";
+    $dbname = "php";
 
-    // Crear conexión
+    
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Verificar conexión
+    
     if ($conn->connect_error) {
-        echo "<p class='status-err'>❌ Error de conexión: " . $conn->connect_error . "</p>";
+        echo "<p class='status-err'>Error de conexión: " . $conn->connect_error . "</p>";
     } else {
-        echo "<p class='status-ok'>✅ Conexión correcta a la Base de Datos</p>";
+        echo "<p class='status-ok'>Conexión correcta a la Base de Datos</p>";
     }
     ?>
 
@@ -58,7 +58,6 @@
                         echo "<td>" . $row["hora"] . "</td>";
                         echo "<td>" . $row["actividad"] . "</td>";
                         echo "<td>" . $row["estado"] . "</td>";
-                        // Mostrar la imagen visible en cada fila (Requisito)
                         echo "<td><img src='" . $row["imagen"] . "' class='row-img'></td>";
                         echo "</tr>";
                     }
