@@ -10,19 +10,16 @@ services:
       MYSQL_USER: php
       MYSQL_PASSWORD: 12345
     volumes:
-      
-      - ./db/initdb.d:/docker-entrypoint-initdb.d/init.sql
-      
+      - ./db/initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/mysql
     networks:
       - BarFer
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p12345"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  
   web:
     build: ./web
     container_name: web
@@ -31,17 +28,24 @@ services:
     depends_on: 
       bd:
         condition: service_healthy
+    volumes:
+      - ./web/init.sql:/init.sql 
     networks:
       - BarFer
-    healthcheck: 
-      test: ["CMD", "curl", "-f", "http://localhost/"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    command: >
+      sh -c "
+      echo 'Esperando DB...' &&
+      until mysql -h bd -u php -p12345 -e 'SELECT 1;' ; do
+        sleep 3;
+      done &&
+      echo 'Ejecutando init.sql desde web...' &&
+      mysql -h bd -u php -p12345 php < /init.sql &&
+      apache2-foreground
+      "
 
 volumes:
-  db_data: 
+  db_data:
 
 networks:
-  BarFer: 
+  BarFer:
     driver: bridge

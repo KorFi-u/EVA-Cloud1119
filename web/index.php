@@ -23,7 +23,7 @@
     $servername = "bd"; 
     $username = "php";
     $password = "12345";
-    $dbname = "php";
+    $dbname = "php";    
 
     
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -58,7 +58,7 @@
                         echo "<td>" . $row["hora"] . "</td>";
                         echo "<td>" . $row["actividad"] . "</td>";
                         echo "<td>" . $row["estado"] . "</td>";
-                        echo "<td><img src='" . $row["imagen"] . "' class='row-img'></td>";
+                        echo "<td><img src='static/img/" . $row["imagen"] . "' class='row-img'></td>";
                         echo "</tr>";
                     }
                 } else {
