@@ -1,0 +1,46 @@
+services:
+  bd:
+    image: mysql:5.7
+    container_name: contenedor_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mi_base_datos
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: password
+    volumes:
+      
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      
+      - db_data:/var/lib/mysql
+    networks:
+      - mi_red
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  
+  web:
+    build: ./web
+    container_name: contenedor_web
+    ports:
+      - "8080:80"
+    depends_on: 
+      bd:
+        condition: service_healthy
+    networks:
+      - mi_red
+    healthcheck: 
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  db_data: 
+
+networks:
+  mi_red: 
+    driver: bridge
